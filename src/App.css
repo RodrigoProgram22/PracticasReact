@@ -1,0 +1,22 @@
+*{
+    color: white;
+}
+body{
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.centrar{
+    margin-top: 50px;
+    text-align: center;
+}
+.card{
+    padding: 3px;
+    margin: 5px;
+    border-radius: 10px;
+    font-size: 20px;
+    color: aliceblue;
+    text-align: center;
+    cursor: pointer;
+}

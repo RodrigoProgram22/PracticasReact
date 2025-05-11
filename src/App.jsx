@@ -1,34 +1,25 @@
-import { React, useEffect, useState } from "react";
-import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
-import { getAllProducts } from "./services/products.service";
-import ItemCard from "./components/ItemCard";
-import Navbar from "./components/Navbar.jsx";
-import { SimpleGrid } from "@chakra-ui/react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import Perfil from "./components/Perfil";
+import Products from "./components/Products";
+import ProductoDetalle from "./components/ProductDetalle";
 const App = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    getAllProducts().then((res) => {
-      setProducts(res.data.products);
-    });
-  }, []);
   return (
     <ChakraProvider>
-      <Navbar></Navbar>
-      <SimpleGrid columns={3} spacing={10}>
-        {products.map((product) => {
-          return (
-            <ItemCard
-              key={product.id}
-              image={product.thumbnail}
-              title={product.title}
-              description={product.description}
-              price={product.price}
-            />
-          );
-        })}
-      </SimpleGrid>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/inicio" element={<Home />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/productos" element={<Products />} />
+            <Route path="/producto/:id" element={<ProductoDetalle />} />
+        </Routes>
+      </Router>
     </ChakraProvider>
   );
 };
+
 export default App;

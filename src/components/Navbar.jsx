@@ -7,7 +7,7 @@ import {
   Button,
   MenuItem,
 } from "@chakra-ui/react";
-
+import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <Flex
@@ -18,13 +18,18 @@ const NavBar = () => {
       height="12%"
       borderBottom="2px solid rgb(202, 91, 91)"
     >
+       <Link to="/inicio">
       <Text className="test">Coder's Store</Text>
-      {/* <div style={myStyles}>Hola</div> */}
+       </Link>
       <Menu>
         <MenuButton as={Button}>Navegar</MenuButton>
         <MenuList>
-          <MenuItem>Zapatillas</MenuItem>
-          <MenuItem>Jordans</MenuItem>
+          <Link to="/perfil">
+            <MenuItem>Perfil usuario</MenuItem>
+          </Link>
+          <Link to="/productos">
+            <MenuItem>Productos</MenuItem>
+          </Link>
         </MenuList>
       </Menu>
       <Button>Carrito</Button>

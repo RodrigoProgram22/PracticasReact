@@ -1,22 +1,18 @@
 import {
   Box,
-  useColorModeValue,
+  Flex,
   Heading,
   Text,
   Stack,
   Image,
   Button,
+  Wrap,
+  Spinner,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-const ItemCard = ({
-  id,
-  image,
-  title,
-  description,
-  price,
-  discountPercentage,
-}) => {
-  const originalPrice = price / (1 - discountPercentage / 100);
+
+const ItemCard = ({ id, image, title, description, price, discount }) => {
+  const priceAfterDiscount = (price - (price * discount) / 100).toFixed(2);
 
   return (
     <Box
@@ -24,7 +20,7 @@ const ItemCard = ({
       p={3}
       maxW={"330px"}
       w={"full"}
-      bg={useColorModeValue("white", "gray.800")}
+      bg={"white"}
       boxShadow={"2xl"}
       rounded={"lg"}
       pos={"relative"}
@@ -54,18 +50,49 @@ const ItemCard = ({
           {description}
         </Heading>
         <Stack direction={"row"} align={"center"}>
-          <Link to={`/Producto/${id}`}>
-            <Button colorScheme="red">Ver Producto</Button>
+          <Link to={`/item/${id}`}>
+            <Button
+              _hover={{ transform: "scale(1.05)" }}
+              transition="all 0.2s"
+              colorScheme="red"
+            >
+              Ver Producto
+            </Button>
           </Link>
           <Text fontWeight={800} fontSize={"xl"}>
             ${price}
           </Text>
           <Text textDecoration={"line-through"} color={"gray.600"}>
-            ${originalPrice.toFixed(2)}
+            ${priceAfterDiscount}
           </Text>
         </Stack>
       </Stack>
     </Box>
   );
 };
-export default ItemCard;
+
+const ItemListContainer = ({ products, loading }) => {
+  return loading ? (
+    <Flex alignItems="center" justifyContent="center" marginTop={"100px"}>
+      <Spinner color="red.500" size="xl" />
+    </Flex>
+  ) : (
+    <Wrap justify={"center"} spacing="25px" marginTop={"20px"}>
+      {products.map((product) => {
+        return (
+          <ItemCard
+            key={product.id}
+            id={product.id}
+            image={product.thumbnail}
+            title={product.title}
+            description={product.description}
+            price={product.price}
+            discount={product.discountPercentage}
+          />
+        );
+      })}
+    </Wrap>
+  );
+};
+
+export default ItemListContainer;

@@ -6,3 +6,9 @@ export async function getAllProducts() {
 export async function getProductById(id) {
     return await axios.get(`${API_URL}/${id}`)
 }
+export async function getProductsByCategory(category) {
+    return await axios.get(`${API_URL}/category/${category}`)
+}
+export async function getAllCategories() {
+    return await axios.get(`${API_URL}/categories`)
+}

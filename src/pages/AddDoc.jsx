@@ -2,7 +2,7 @@ import { Button, Container, Input, Alert, AlertIcon } from "@chakra-ui/react";
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
-
+import { useTitle } from "../hooks/useTitle";
 const AddDoc = () => {
   const [formState, setFormState] = useState({
     title: "",
@@ -15,6 +15,7 @@ const AddDoc = () => {
     category: "",
   });
   const [error, setError] = useState("vacio");
+  useTitle("Añadir Producto");
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formState.stock > 0 && formState.price > 0) {

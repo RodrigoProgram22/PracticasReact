@@ -1,12 +1,12 @@
 import { Box, Button } from "@chakra-ui/react";
 import { useContext } from "react";
-import { CartContext } from "../Context/CartContext";
+import { CartContext } from "../context/CartContext";
 const ItemCount = ({product}) => {
-    const {agregarAlCarrito,quitarDelCarrito} = useContext(CartContext);
+    const {addProductToCart,deleteProductFromCart} = useContext(CartContext);
   return (
     <Box>
-      <Button colorScheme="red" marginX={2} onClick={()=>{agregarAlCarrito(product)}}>Añadir Producto</Button>
-      <Button colorScheme="red" onClick={()=>{quitarDelCarrito(product)}}>Quitar Producto</Button>
+      <Button colorScheme="red" marginX={2} onClick={()=>{addProductToCart(product)}}>Añadir Producto</Button>
+      <Button colorScheme="red" onClick={()=>{deleteProductFromCart(product.id)}}>Quitar Producto</Button>
     </Box>
   );
 };

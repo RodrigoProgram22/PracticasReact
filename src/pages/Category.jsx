@@ -3,10 +3,12 @@ import ItemListContainer from "../components/ItemListContainer";
 import { useEffect, useState } from "react";
 import {collection,getDocs,query,where} from "firebase/firestore";
 import { db } from "../services/firebase";
+import { useTitle } from "../hooks/useTitle";
 const Category = () => {
   const [products, setProducts] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  useTitle(`Category: ${id}`);
   useEffect(() => {
    const productsQuery = query(
       collection(db, "products"),where("category", "==", id)
@@ -23,6 +25,7 @@ const Category = () => {
         console.error("Error fetching products:", error);
       })
       .finally(() => {
+        
         setLoading(false);
       });
   }, [id]);

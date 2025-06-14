@@ -1,7 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/index";
-import { CartProvider } from "./Context/CartContext";
+import { CartProvider } from "./context/CartContext";
 const App = () => {
   return (
     <ChakraProvider>

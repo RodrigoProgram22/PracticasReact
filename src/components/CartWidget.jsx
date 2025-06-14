@@ -9,10 +9,12 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { useContext } from "react";
-import { CartContext } from "../Context/CartContext";
+import { CartContext } from "../context/CartContext";
+import { useNavigate } from "react-router";
 const CartWidget = () => {
   const { cart } = useContext(CartContext);
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+  const navigate = useNavigate();
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Menu>
@@ -35,7 +37,15 @@ const CartWidget = () => {
               ))
             )}
           </SimpleGrid>
-          <Text textAlign="center">Total de productos : {totalItems}</Text>
+          <Flex alignItems="center" justifyContent="center">
+            <Button
+              textAlign="center"
+              colorScheme="red"
+              onClick={() => navigate("/cart")}
+            >
+              Ver carrito
+            </Button>
+          </Flex>
         </MenuList>
       </Menu>
     </Flex>

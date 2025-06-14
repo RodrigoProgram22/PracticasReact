@@ -5,44 +5,61 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  const agregarAlCarrito = (producto) => {
-    setCart((carritoAnterior) => {
-      const productoExistente = carritoAnterior.find(
-        (item) => item.id === producto.id
-      );
-      if (productoExistente) {
-        const nuevoCarrito = carritoAnterior.map((item) =>
-          item.id === producto.id
+  const addProductToCart = (product) => {
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+
+      if (existingProduct) {
+        return prevCart.map((item) =>
+          item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
-        return nuevoCarrito;
       }
-      const nuevoCarrito = [...carritoAnterior, { ...producto, quantity: 1 }];
-      return nuevoCarrito;
+
+      return [...prevCart, { ...product, quantity: 1 }];
     });
   };
 
-  const quitarDelCarrito = (producto) => {
-    setCart((carritoAnterior) => {
-      const productoExistente = carritoAnterior.find(
-        (item) => item.id === producto.id
-      );
-      if (productoExistente) {
-        if (productoExistente.quantity > 1) {
-          return carritoAnterior.map((item) =>
-            item.id === producto.id
-              ? { ...item, quantity: item.quantity - 1 }
-              : item
-          );
-        } else {
-          return carritoAnterior.filter((item) => item.id !== producto.id);
-        }
+  const removeProductFromCart = (product) => {
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      if (existingProduct.quantity === 1) {
+        return prevCart.filter((item) => item.id !== product.id);
       }
+      return prevCart.map((item) =>
+        item.id === product.id ? { ...item, quantity: item.quantity - 1 } : item
+      );
     });
   };
+
+  const deleteProductFromCart = (itemId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== itemId));
+  };
+
+  const getTotalCount = () => {
+    return cart.reduce((total, item) => Number(total) + item.quantity, 0);
+  };
+
+  const getTotalPrice = () => {
+    const totalPrice = cart.reduce(
+      (total, item) => total + Number(item.price) * item.quantity,
+      0
+    );
+    return totalPrice;
+  };
+
   return (
-    <CartContext.Provider value={{ cart, agregarAlCarrito, quitarDelCarrito }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addProductToCart,
+        removeProductFromCart,
+        getTotalCount,
+        deleteProductFromCart,
+        getTotalPrice,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
